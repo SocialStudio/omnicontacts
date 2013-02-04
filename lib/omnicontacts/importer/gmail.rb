@@ -36,7 +36,7 @@ module OmniContacts
 
       def parse_contacts contacts_as_xml
         #xml = REXML::Document.new(contacts_as_xml)
-        xmlparser, xmlparser.strong = XML::Parser.new, contacts_as_xml
+        xmlparser, xmlparser.string = XML::Parser.new, contacts_as_xml
         doc = xmlparser.parse
         contacts = []
         #xml.elements.each('//entry') do |entry|
