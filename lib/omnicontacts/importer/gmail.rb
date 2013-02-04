@@ -40,13 +40,13 @@ module OmniContacts
         contacts = []
         #xml.elements.each('//entry') do |entry|
         xml.find('//entry').each do |entry|
-          gd_email = entry.elements['gd:email']
+          gd_email = entry.find('gd:email').first
           if gd_email
-            contact = {:email => gd_email.attributes['address']}
-            gd_name = entry.elements['gd:name']
+            contact = {:email => gd_email['address']}
+            gd_name = entry.find('gd:name').first
             if gd_name
-              gd_full_name = gd_name.elements['gd:fullName']
-              contact[:name] = gd_full_name.text if gd_full_name
+              gd_full_name = gd_name.find('gd:fullName').first.content
+              contact[:name] = gd_full_name if gd_full_name
             end
             contacts << contact
           end
