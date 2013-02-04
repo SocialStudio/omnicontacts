@@ -1,5 +1,6 @@
 require "omnicontacts/middleware/oauth2"
-require "rexml/document"
+#require "rexml/document"
+require "xml"
 
 module OmniContacts
   module Importer
@@ -34,9 +35,11 @@ module OmniContacts
       end
 
       def parse_contacts contacts_as_xml
-        xml = REXML::Document.new(contacts_as_xml)
+        #xml = REXML::Document.new(contacts_as_xml)
+        xml = XML::Parser.new(contacts_as_xml)
         contacts = []
-        xml.elements.each('//entry') do |entry|
+        #xml.elements.each('//entry') do |entry|
+        xml.find('//entry').each do |entry|
           gd_email = entry.elements['gd:email']
           if gd_email
             contact = {:email => gd_email.attributes['address']}
