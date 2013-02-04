@@ -36,10 +36,11 @@ module OmniContacts
 
       def parse_contacts contacts_as_xml
         #xml = REXML::Document.new(contacts_as_xml)
-        xml = XML::Parser.new(contacts_as_xml)
+        xmlparser, xmlparser.strong = XML::Parser.new, contacts_as_xml
+        doc = xmlparser.parse
         contacts = []
         #xml.elements.each('//entry') do |entry|
-        xml.find('//entry').each do |entry|
+        doc.find('//entry').each do |entry|
           gd_email = entry.find('gd:email').first
           if gd_email
             contact = {:email => gd_email['address']}
