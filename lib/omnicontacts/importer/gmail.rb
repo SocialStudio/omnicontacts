@@ -38,24 +38,22 @@ module OmniContacts
         #xml = REXML::Document.new(contacts_as_xml)
         xmlparser, xmlparser.string = XML::Parser.new, contacts_as_xml
         doc = xmlparser.parse
-        Rails.logger.debug "doc = #{doc}"
         contacts = []
         #xml.elements.each('//entry') do |entry|
-        doc.find('/feed/entry').each do |entry|
-          Rails.logger.debug "entry = #{entry}"
-          gd_email = entry.find('gd:email').first
-          if gd_email
-            Rails.logger.debug "gd_email = #{hd_email}"
-            contact = {:email => gd_email['address']}
-            gd_name = entry.find('gd:name').first
-            if gd_name
-              gd_full_name = gd_name.find('gd:fullName').first.content
-              contact[:name] = gd_full_name if gd_full_name
+        doc.find('*').each do |entry|
+          if entry.name == "entry"
+            gd_email = entry.find('gd:email').first
+            if gd_email
+              contact = {:email => gd_email['address']}
+              gd_name = entry.find('gd:name').first
+              if gd_name
+                gd_full_name = gd_name.find('gd:fullName').first.content if gd_name.find('gd:fullName').first
+                contact[:name] = gd_full_name if gd_full_name
+              end
+              contacts << contact
             end
-            contacts << contact
           end
         end
-        Rails.logger.debug "contacts = #{contacts}"
         contacts
       end
 
