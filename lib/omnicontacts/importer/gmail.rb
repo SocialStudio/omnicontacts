@@ -42,8 +42,10 @@ module OmniContacts
         contacts = []
         #xml.elements.each('//entry') do |entry|
         doc.find('//entry').each do |entry|
+          Rails.logger.debug "entry = #{entry}"
           gd_email = entry.find('gd:email').first
           if gd_email
+            Rails.logger.debug "gd_email = #{hd_email}"
             contact = {:email => gd_email['address']}
             gd_name = entry.find('gd:name').first
             if gd_name
@@ -53,6 +55,7 @@ module OmniContacts
             contacts << contact
           end
         end
+        Rails.logger.debug "contacts = #{contacts}"
         contacts
       end
 
