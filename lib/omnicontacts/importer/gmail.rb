@@ -38,6 +38,7 @@ module OmniContacts
         #xml = REXML::Document.new(contacts_as_xml)
         xmlparser, xmlparser.string = XML::Parser.new, contacts_as_xml
         doc = xmlparser.parse
+        Rails.logger.debug "doc = #{doc}"
         contacts = []
         #xml.elements.each('//entry') do |entry|
         doc.find('//entry').each do |entry|
